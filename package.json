@@ -1,7 +1,7 @@
 {
-    "name": "ts-interface-to-csharp",
+    "name": "ts-to-cs",
     "version": "0.0.1",
-    "description": "",
+    "description": "Convert typescript code to csharp code.",
     "main": "lib/index.js",
     "files": [
         "lib/index.js"

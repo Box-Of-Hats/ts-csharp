@@ -4,27 +4,23 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "npm run build && mocha .\\lib\\tests\\tests.js -u tdd",
+        "test": "npm run build && mocha .\\lib\\tests\\tests.js -u tdd ",
         "build": "babel src --out-dir lib --extensions \".ts\" --source-maps inline"
     },
     "keywords": [],
-    "author": "",
+    "author": "box-of-hats",
     "license": "ISC",
-    "dependencies": {
-        "@types/node": "^12.7.5"
-    },
+    "dependencies": {},
     "devDependencies": {
-        "@babel/cli": "^7.2.3",
-        "@babel/core": "^7.4.0",
-        "@babel/plugin-proposal-class-properties": "^7.4.0",
-        "@babel/plugin-proposal-numeric-separator": "^7.2.0",
-        "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
-        "@babel/preset-env": "^7.4.1",
-        "@babel/preset-typescript": "^7.3.2",
+        "@babel/cli": "^7.6.0",
+        "@babel/core": "^7.6.0",
+        "@babel/preset-env": "^7.6.0",
+        "@babel/preset-typescript": "^7.6.0",
         "@types/mocha": "^5.2.7",
+        "@types/node": "^12.7.5",
         "assert": "^2.0.0",
         "mocha": "^6.2.0",
         "ts-node": "^8.4.1",
-        "typescript": "^3.3.3"
+        "typescript": "^3.6.3"
     }
 }

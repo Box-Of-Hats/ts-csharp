@@ -1,10 +1,39 @@
-const assert = require("assert");
+let assert = require("assert");
+import { TypescriptConverter } from "../index";
 
-suite("BemHelper Tests", () => {
-    test("Class extraction - Camel Case", () => {
-        const expected = "b";
+suite("Interface conversion tests", () => {
+    let tsConverter = new TypescriptConverter();
 
-        let actual = "b";
+    test("empty interface", () => {
+        let input = `
+        interface Beans {
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = `
+        public class Beans {
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfaceToCsharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
+    test("extract name", () => {
+        let input = `
+        interface Beans {
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = "Beans";
+
+        let actual = tsConverter.extractInterfaceName(input);
 
         assert.deepEqual(actual, expected);
     });

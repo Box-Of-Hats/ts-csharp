@@ -10,7 +10,7 @@ suite("Interface conversion tests", () => {
         let input = `
         interface Beans {
             propOne : string;
-            propTwo : string;
+            propTwo? : string;
             propThree : number;
             propFour : boolean;
         }
@@ -59,7 +59,7 @@ suite("Interface conversion tests", () => {
     test("generate class - primative types", () => {
         let input = `
         interface Beans {
-            propOne : string;
+            propOne? : string;
             propTwo : string;
             propThree : number;
             propFour : boolean;
@@ -97,7 +97,7 @@ suite("Interface conversion tests", () => {
             propOne : string[];
             propTwo : boolean[];
             propThree : number[];
-            propFour : any[];
+            propFour? : any[];
         }
         `.replace(/\s+/g, " ");
 

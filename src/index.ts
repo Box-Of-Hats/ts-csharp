@@ -1,6 +1,6 @@
-const interfaceNameRegex = /interface ([a-zA-Z0-9]+) /g;
-const interfaceBodyRegex = /(interface [a-zA-Z0-9]+\s{[\sa-zA-Z:;\[\]]+})/g;
-const propertyRegex = /([a-zA-Z0-9]+\s*:\s*[a-zA-Z\[\]]+)/g;
+const interfaceNameRegex = /interface ([a-zA-Z0-9?]+) /g;
+const interfaceBodyRegex = /(interface [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
+const propertyRegex = /([a-zA-Z0-9?]+\s*:\s*[a-zA-Z\[\]]+)/g;
 
 export interface TsProperty {
     property: string;
@@ -100,7 +100,7 @@ export const extractProperties = (tsInterface: string): TsProperty[] => {
     let tsProperties: TsProperty[] = matches.map(match => {
         const components = match.split(":");
         return {
-            property: components[0].trim(),
+            property: components[0].trim().replace("?", ""),
             type: components[1].trim()
         };
     });

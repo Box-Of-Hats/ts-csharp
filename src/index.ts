@@ -3,16 +3,30 @@ interface tsProperty {
     type: string;
 }
 
+String.prototype.toPascalCase = function(this: string) {
+    return this.length >= 2
+        ? `${this[0].toUpperCase()}${this.slice(1)}`
+        : this.toUpperCase();
+};
+
 export class TypescriptConverter {
     private interfaceNameRegex = /interface ([a-zA-Z0-9]+) /g;
-    private propertyRegex = /([a-zA-Z0-9]+\s*:\s*[a-zA-Z]+)/g;
+    private propertyRegex = /([a-zA-Z0-9]+\s*:\s*[a-zA-Z\[\]]+)/g;
 
     private typeMappings = {
         string: "string",
         number: "int",
         boolean: "bool",
         any: "object",
-        void: "void"
+        void: "void",
+        "string[]": "IEnumerable<string>",
+        "number[]": "IEnumerable<int>",
+        "boolean[]": "IEnumerable<bool>",
+        "any[]": "IEnumerable<object>"
+    };
+
+    convertToPascalCase = (str: string) => {
+        return `${str[0].toUpperCase()}${str.slice(1)}`;
     };
 
     csClass = (className: string, classProperties: string) => {
@@ -26,9 +40,7 @@ export class TypescriptConverter {
     csProperty = (propertyName: string, propertyType: string) => {
         const csType = this.typeMappings[propertyType];
 
-        const csPropertyName = `${propertyName[0].toUpperCase()}${propertyName.slice(
-            1
-        )}`;
+        const csPropertyName = propertyName.toPascalCase();
 
         return `
         [JsonProperty("${propertyName}")]

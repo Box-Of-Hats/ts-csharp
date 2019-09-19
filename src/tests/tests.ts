@@ -40,6 +40,42 @@ suite("Interface conversion tests", () => {
         assert.deepEqual(actual, expected);
     });
 
+    test("generate class - primative lists", () => {
+        let input = `
+        interface Beans {
+            propOne : string[];
+            propTwo : boolean[];
+            propThree : number[];
+            propFour : any[];
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = `
+        public class Beans {
+            [JsonProperty("propOne")]
+            public IEnumerable<string> PropOne;
+
+            [JsonProperty("propTwo")]
+            public IEnumerable<bool> PropTwo;
+
+            [JsonProperty("propThree")]
+            public IEnumerable<int> PropThree;
+
+            [JsonProperty("propFour")]
+            public IEnumerable<object> PropFour;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfaceToCSharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
     test("generate class - empty interface", () => {
         let input = `
         interface Beans {
@@ -74,7 +110,7 @@ suite("Interface conversion tests", () => {
         assert.deepEqual(actual, expected);
     });
 
-    test("extract property - 1x primative", () => {
+    test("extract property - primative", () => {
         let input = `
         interface Beans {
             propertyOne : string;
@@ -82,6 +118,20 @@ suite("Interface conversion tests", () => {
         `.replace(/\s+/g, " ");
 
         let expected = [{ property: "propertyOne", type: "string" }];
+
+        let actual = tsConverter.extractProperties(input);
+
+        assert.deepEqual(actual, expected);
+    });
+
+    test("extract property - list", () => {
+        let input = `
+        interface Beans {
+            propertyOne : string[];
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = [{ property: "propertyOne", type: "string[]" }];
 
         let actual = tsConverter.extractProperties(input);
 

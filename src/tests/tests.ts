@@ -4,7 +4,43 @@ import { TypescriptConverter } from "../index";
 suite("Interface conversion tests", () => {
     let tsConverter = new TypescriptConverter();
 
-    test("empty interface", () => {
+    test("generate class - primative types", () => {
+        let input = `
+        interface Beans {
+            propOne : string;
+            propTwo : string;
+            propThree : number;
+            propFour : boolean;
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = `
+        public class Beans {
+            [JsonProperty("propOne")]
+            public string PropOne;
+
+            [JsonProperty("propTwo")]
+            public string PropTwo;
+
+            [JsonProperty("propThree")]
+            public int PropThree;
+
+            [JsonProperty("propFour")]
+            public bool PropFour;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfaceToCSharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
+    test("generate class - empty interface", () => {
         let input = `
         interface Beans {
         }
@@ -18,7 +54,7 @@ suite("Interface conversion tests", () => {
             .trim();
 
         let actual = tsConverter
-            .convertInterfaceToCsharp(input)
+            .convertInterfaceToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -34,6 +70,20 @@ suite("Interface conversion tests", () => {
         let expected = "Beans";
 
         let actual = tsConverter.extractInterfaceName(input);
+
+        assert.deepEqual(actual, expected);
+    });
+
+    test("extract property - 1x primative", () => {
+        let input = `
+        interface Beans {
+            propertyOne : string;
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = [{ property: "propertyOne", type: "string" }];
+
+        let actual = tsConverter.extractProperties(input);
 
         assert.deepEqual(actual, expected);
     });

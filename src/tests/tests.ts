@@ -1,9 +1,11 @@
 let assert = require("assert");
-import { TypescriptConverter } from "../index";
+import {
+    convertInterfacesToCSharp,
+    extractInterfaceName,
+    extractProperties
+} from "../index";
 
 suite("Interface conversion tests", () => {
-    let tsConverter = new TypescriptConverter();
-
     test("generate classes - multiple interfaces", () => {
         let input = `
         interface Beans {
@@ -47,8 +49,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfacesToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -83,8 +84,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfaceToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -119,8 +119,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfaceToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -143,8 +142,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfaceToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -167,8 +165,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfaceToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -188,8 +185,7 @@ suite("Interface conversion tests", () => {
             .replace(/\s+/g, " ")
             .trim();
 
-        let actual = tsConverter
-            .convertInterfaceToCSharp(input)
+        let actual = convertInterfacesToCSharp(input)
             .replace(/\s+/g, " ")
             .trim();
 
@@ -204,7 +200,7 @@ suite("Interface conversion tests", () => {
 
         let expected = "Beans";
 
-        let actual = tsConverter.extractInterfaceName(input);
+        let actual = extractInterfaceName(input);
 
         assert.deepEqual(actual, expected);
     });
@@ -218,7 +214,7 @@ suite("Interface conversion tests", () => {
 
         let expected = [{ property: "propertyOne", type: "string" }];
 
-        let actual = tsConverter.extractProperties(input);
+        let actual = extractProperties(input);
 
         assert.deepEqual(actual, expected);
     });
@@ -232,7 +228,7 @@ suite("Interface conversion tests", () => {
 
         let expected = [{ property: "propertyOne", type: "string[]" }];
 
-        let actual = tsConverter.extractProperties(input);
+        let actual = extractProperties(input);
 
         assert.deepEqual(actual, expected);
     });

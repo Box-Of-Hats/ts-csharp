@@ -7,6 +7,8 @@ Convert typescript interfaces to csharp classes
 ```javascript
 const tscharp = require("ts-csharp");
 
+import { convertInterfacesToCSharp } from "ts-csharp";
+
 const myTypescriptClassString = `
 interface MyTypescriptClass {
     propOne : string;
@@ -15,11 +17,7 @@ interface MyTypescriptClass {
     propFour : boolean;
 }`;
 
-const tscharpConverter = new tscharp.TypescriptConverter();
-
-const myCsharpClass = tscharpConverter.convertInterfaceToCSharp(
-    myTypescriptClassString
-);
+const myCsharpClass = convertInterfacesToCSharp(myTypescriptClassString);
 
 console.log(myCsharpClass);
 /*

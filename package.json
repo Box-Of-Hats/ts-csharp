@@ -15,7 +15,7 @@
     "license": "ISC",
     "dependencies": {},
     "repository": {
-        "url": "https://github.com/Box-Of-Hats/ts-to-cs"
+        "url": "https://github.com/Box-Of-Hats/ts-csharp"
     },
     "devDependencies": {
         "@babel/cli": "^7.6.0",

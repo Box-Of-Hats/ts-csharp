@@ -2,9 +2,9 @@
     "name": "ts-interface-to-csharp",
     "version": "0.0.1",
     "description": "",
-    "main": "./lib/index.js",
+    "main": "lib/index.js",
     "files": [
-        "./lib/index.js"
+        "lib/index.js"
     ],
     "scripts": {
         "prepublish": "npm run build",

@@ -18,15 +18,7 @@ export class TypescriptConverter {
         number: "int",
         boolean: "bool",
         any: "object",
-        void: "void",
-        "string[]": "IEnumerable<string>",
-        "number[]": "IEnumerable<int>",
-        "boolean[]": "IEnumerable<bool>",
-        "any[]": "IEnumerable<object>"
-    };
-
-    convertToPascalCase = (str: string) => {
-        return `${str[0].toUpperCase()}${str.slice(1)}`;
+        void: "void"
     };
 
     csClass = (className: string, classProperties: string) => {
@@ -38,7 +30,20 @@ export class TypescriptConverter {
     };
 
     csProperty = (propertyName: string, propertyType: string) => {
-        const csType = this.typeMappings[propertyType];
+        const isList = propertyType.includes("[");
+        propertyType = propertyType.replace(/\[\]/g, "");
+
+        let csType: string;
+        if (Object.keys(this.typeMappings).includes(propertyType)) {
+            csType = this.typeMappings[propertyType];
+        } else {
+            csType = propertyType.toPascalCase();
+        }
+
+        // Convert list to IEnumerable if necessary
+        if (isList) {
+            csType = `IEnumerable<${csType}>`;
+        }
 
         const csPropertyName = propertyName.toPascalCase();
 

@@ -76,6 +76,54 @@ suite("Interface conversion tests", () => {
         assert.deepEqual(actual, expected);
     });
 
+    test("generate class - custom object", () => {
+        let input = `
+        interface Beans {
+            propOne : CustomClass;
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = `
+        public class Beans {
+            [JsonProperty("propOne")]
+            public CustomClass PropOne;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfaceToCSharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
+    test("generate class - custom object list", () => {
+        let input = `
+        interface Beans {
+            propOne : CustomClass[];
+        }
+        `.replace(/\s+/g, " ");
+
+        let expected = `
+        public class Beans {
+            [JsonProperty("propOne")]
+            public IEnumerable<CustomClass> PropOne;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfaceToCSharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
     test("generate class - empty interface", () => {
         let input = `
         interface Beans {

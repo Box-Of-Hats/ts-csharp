@@ -1,8 +1,8 @@
 {
     "name": "ts-interface-to-csharp",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "",
-    "main": "index.js",
+    "main": "./lib/index.js",
     "scripts": {
         "test": "npm run build && mocha .\\lib\\tests\\tests.js -u tdd ",
         "build": "babel src --out-dir lib --extensions \".ts\" --source-maps inline"
@@ -11,6 +11,9 @@
     "author": "box-of-hats",
     "license": "ISC",
     "dependencies": {},
+    "repository": {
+        "url": "https://github.com/Box-Of-Hats/ts-to-cs"
+    },
     "devDependencies": {
         "@babel/cli": "^7.6.0",
         "@babel/core": "^7.6.0",

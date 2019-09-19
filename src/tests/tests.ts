@@ -4,6 +4,57 @@ import { TypescriptConverter } from "../index";
 suite("Interface conversion tests", () => {
     let tsConverter = new TypescriptConverter();
 
+    test("generate classes - multiple interfaces", () => {
+        let input = `
+        interface Beans {
+            propOne : string;
+            propTwo : string;
+            propThree : number;
+            propFour : boolean;
+        }
+
+        interface SecondaryClass {
+            propertyNumberOne : number[];
+            isProperty : boolean;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let expected = `
+        public class Beans {
+            [JsonProperty("propOne")]
+            public string PropOne;
+
+            [JsonProperty("propTwo")]
+            public string PropTwo;
+
+            [JsonProperty("propThree")]
+            public int PropThree;
+
+            [JsonProperty("propFour")]
+            public bool PropFour;
+        }
+
+        public class SecondaryClass {
+            [JsonProperty("propertyNumberOne")]
+            public IEnumerable<int> PropertyNumberOne;
+
+            [JsonProperty("isProperty")]
+            public bool IsProperty;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = tsConverter
+            .convertInterfacesToCSharp(input)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
     test("generate class - primative types", () => {
         let input = `
         interface Beans {

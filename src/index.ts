@@ -11,6 +11,7 @@ String.prototype.toPascalCase = function(this: string) {
 
 export class TypescriptConverter {
     private interfaceNameRegex = /interface ([a-zA-Z0-9]+) /g;
+    private interfaceBodyRegex = /(interface [a-zA-Z0-9]+\s{[\sa-zA-Z:;\[\]]+})/g;
     private propertyRegex = /([a-zA-Z0-9]+\s*:\s*[a-zA-Z\[\]]+)/g;
 
     private typeMappings = {
@@ -19,6 +20,20 @@ export class TypescriptConverter {
         boolean: "bool",
         any: "object",
         void: "void"
+    };
+
+    convertInterfacesToCSharp = (tsInterfaces: string): string => {
+        const matches = tsInterfaces.match(this.interfaceBodyRegex);
+        if (!matches) {
+            return "";
+        }
+        console.log("matches:", matches.length);
+
+        return matches
+            .map(iface => {
+                return this.convertInterfaceToCSharp(iface);
+            })
+            .join("");
     };
 
     csClass = (className: string, classProperties: string) => {

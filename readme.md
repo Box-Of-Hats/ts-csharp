@@ -5,8 +5,6 @@ Convert typescript interfaces to csharp classes
 ## Example usage
 
 ```javascript
-const tscharp = require("ts-csharp");
-
 import { convertInterfacesToCSharp } from "ts-csharp";
 
 const myTypescriptClassString = `
@@ -30,6 +28,7 @@ console.log(myCsharpClass);
 ```
 
 Generates the following code:
+
 ```c#
 
 public class MyTypescriptClass {

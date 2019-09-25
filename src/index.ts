@@ -1,5 +1,6 @@
 const interfaceNameRegex = /interface ([a-zA-Z0-9?]+) /g;
 const interfaceBodyRegex = /(interface [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
+const interfaceBodyExportsOnlyRegex = /(export interface [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
 const propertyRegex = /([a-zA-Z0-9?]+\s*:\s*[a-zA-Z\[\]]+)/g;
 
 export interface TsProperty {
@@ -21,8 +22,16 @@ const typeMappings = {
     void: "void"
 };
 
-export const convertInterfacesToCSharp = (tsInterfaces: string): string => {
-    const matches = tsInterfaces.match(interfaceBodyRegex);
+function convertInterfacesToCSharp(sInterfaces: string);
+function convertInterfacesToCSharp(sInterfaces: string, exportsOnly: boolean);
+
+function convertInterfacesToCSharp(
+    tsInterfaces: string,
+    exportsOnly?: boolean
+): string {
+    const matches = exportsOnly
+        ? tsInterfaces.match(interfaceBodyExportsOnlyRegex)
+        : tsInterfaces.match(interfaceBodyRegex);
     if (!matches) {
         return "";
     }
@@ -32,7 +41,7 @@ export const convertInterfacesToCSharp = (tsInterfaces: string): string => {
             return convertInterfaceToCSharp(iface);
         })
         .join("");
-};
+}
 
 const csClass = (className: string, classProperties: string) => {
     return `
@@ -106,3 +115,5 @@ export const extractProperties = (tsInterface: string): TsProperty[] => {
     });
     return tsProperties;
 };
+
+export { convertInterfacesToCSharp };

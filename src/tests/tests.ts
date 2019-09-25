@@ -56,6 +56,43 @@ suite("Interface conversion tests", () => {
         assert.deepEqual(actual, expected);
     });
 
+    test("generate classes (exports only) - multiple interfaces", () => {
+        let input = `
+        interface Beans {
+            propOne : string;
+            propTwo? : string;
+            propThree : number;
+            propFour : boolean;
+        }
+
+        export interface SecondaryClass {
+            propertyNumberOne : number[];
+            isProperty : boolean;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let expected = `
+        public class SecondaryClass {
+            [JsonProperty("propertyNumberOne")]
+            public IEnumerable<int> PropertyNumberOne;
+
+            [JsonProperty("isProperty")]
+            public bool IsProperty;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = convertInterfacesToCSharp(input, true)
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
+
     test("generate class - primative types", () => {
         let input = `
         interface Beans {

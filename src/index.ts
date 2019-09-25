@@ -93,7 +93,7 @@ export const extractInterfaceName = (tsInterface: string): string => {
     interfaceNameRegex.lastIndex = 0;
     let matches = interfaceNameRegex.exec(tsInterface);
     if (!matches || matches.length === 0) {
-        return null;
+        return "";
     }
     return matches[matches.length - 1];
 };

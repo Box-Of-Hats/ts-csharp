@@ -1,6 +1,6 @@
 {
     "name": "ts-csharp",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Convert typescript code to csharp code.",
     "main": "lib/index.js",
     "files": [
@@ -8,8 +8,9 @@
     ],
     "scripts": {
         "test": "mocha .\\lib\\tests\\tests.js -u tdd ",
-        "build": "babel src --out-dir lib --extensions \".ts\" --source-maps inline"
+        "build": "tsc"
     },
+    "types": "./lib/index.d.ts",
     "keywords": [],
     "author": "box-of-hats",
     "license": "ISC",

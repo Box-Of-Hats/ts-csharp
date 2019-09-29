@@ -24,10 +24,23 @@ const typeMappings = {
 
 function convertInterfacesToCSharp(sInterfaces: string);
 function convertInterfacesToCSharp(sInterfaces: string, exportsOnly: boolean);
+function convertInterfacesToCSharp(
+    sInterfaces: string,
+    exportsOnly: boolean,
+    classPrefix: string
+);
+function convertInterfacesToCSharp(
+    sInterfaces: string,
+    exportsOnly: boolean,
+    classPrefix: string,
+    classSuffix: string
+);
 
 function convertInterfacesToCSharp(
     tsInterfaces: string,
-    exportsOnly?: boolean
+    exportsOnly?: boolean,
+    classPrefix?: string,
+    classSuffix?: string
 ): string {
     const matches = exportsOnly
         ? tsInterfaces.match(interfaceBodyExportsOnlyRegex)
@@ -38,7 +51,11 @@ function convertInterfacesToCSharp(
 
     return matches
         .map(iface => {
-            return convertInterfaceToCSharp(iface);
+            return convertInterfaceToCSharp(
+                iface,
+                classPrefix ? classPrefix : "",
+                classSuffix ? classSuffix : ""
+            );
         })
         .join("");
 }
@@ -75,8 +92,14 @@ const csProperty = (propertyName: string, propertyType: string) => {
     `;
 };
 
-const convertInterfaceToCSharp = (tsInterface: string): string => {
-    const interfaceName = extractInterfaceName(tsInterface);
+const convertInterfaceToCSharp = (
+    tsInterface: string,
+    classPrefix: string,
+    classSuffix: string
+): string => {
+    const interfaceName = `${classPrefix}${extractInterfaceName(
+        tsInterface
+    )}${classSuffix}`;
 
     const props = extractProperties(tsInterface);
 

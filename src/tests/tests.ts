@@ -56,6 +56,56 @@ suite("Interface conversion tests", () => {
         assert.deepEqual(actual, expected);
     });
 
+    test("generate classes - prefix and suffix", () => {
+        let input = `
+        interface Beans {
+            propOne : string;
+            propTwo? : string;
+            propThree : number;
+            propFour : boolean;
+        }
+
+        interface SecondaryClass {
+            propertyNumberOne : number[];
+            isProperty : boolean;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let expected = `
+        public class PrefixBeansSuffix {
+            [JsonProperty("propOne")]
+            public string PropOne;
+
+            [JsonProperty("propTwo")]
+            public string PropTwo;
+
+            [JsonProperty("propThree")]
+            public int PropThree;
+
+            [JsonProperty("propFour")]
+            public bool PropFour;
+        }
+
+        public class PrefixSecondaryClassSuffix {
+            [JsonProperty("propertyNumberOne")]
+            public IEnumerable<int> PropertyNumberOne;
+
+            [JsonProperty("isProperty")]
+            public bool IsProperty;
+        }
+        `
+            .replace(/\s+/g, " ")
+            .trim();
+
+        let actual = convertInterfacesToCSharp(input, false, "Prefix", "Suffix")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        assert.deepEqual(actual, expected);
+    });
+
     test("generate classes (exports only) - multiple interfaces", () => {
         let input = `
         interface Beans {
@@ -91,7 +141,6 @@ suite("Interface conversion tests", () => {
 
         assert.deepEqual(actual, expected);
     });
-
 
     test("generate class - primative types", () => {
         let input = `

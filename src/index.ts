@@ -1,6 +1,6 @@
-const interfaceNameRegex = /interface ([a-zA-Z0-9?]+) /g;
-const interfaceBodyRegex = /(interface [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
-const interfaceBodyExportsOnlyRegex = /(export interface [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
+const interfaceNameRegex = /(interface|class) ([a-zA-Z0-9?]+) /g;
+const interfaceBodyRegex = /((interface|class) [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
+const interfaceBodyExportsOnlyRegex = /(export (interface|class) [a-zA-Z0-9?]+\s{[\sa-zA-Z:?;\[\]]+})/g;
 const propertyRegex = /([a-zA-Z0-9?]+\s*:\s*[a-zA-Z\[\]]+)/g;
 
 export interface TsProperty {
@@ -19,7 +19,7 @@ const typeMappings = {
     number: "int",
     boolean: "bool",
     any: "object",
-    void: "void"
+    void: "void",
 };
 
 function convertInterfacesToCSharp(sInterfaces: string);
@@ -50,7 +50,7 @@ function convertInterfacesToCSharp(
     }
 
     return matches
-        .map(iface => {
+        .map((iface) => {
             return convertInterfaceToCSharp(
                 iface,
                 classPrefix ? classPrefix : "",
@@ -104,7 +104,7 @@ const convertInterfaceToCSharp = (
     const props = extractProperties(tsInterface);
 
     const csProps = props
-        .map(property => {
+        .map((property) => {
             return csProperty(property.property, property.type);
         })
         .join("");
@@ -129,11 +129,11 @@ export const extractProperties = (tsInterface: string): TsProperty[] => {
         return [];
     }
 
-    let tsProperties: TsProperty[] = matches.map(match => {
+    let tsProperties: TsProperty[] = matches.map((match) => {
         const components = match.split(":");
         return {
             property: components[0].trim().replace("?", ""),
-            type: components[1].trim()
+            type: components[1].trim(),
         };
     });
     return tsProperties;

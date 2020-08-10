@@ -1,6 +1,6 @@
 # ts-csharp
 
-Convert typescript interfaces to csharp classes
+Convert typescript interfaces or classes to csharp classes.
 
 ## Example usage
 

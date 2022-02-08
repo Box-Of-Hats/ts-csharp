@@ -1,14 +1,14 @@
 import * as assert from "assert";
 
 import {
-    convertInterfacesToCSharp,
-    extractInterfaceName,
-    extractProperties,
+	convertInterfacesToCSharp,
+	extractInterfaceName,
+	extractProperties,
 } from "../index";
 
 suite("Interface conversion tests", () => {
-    test("generate classes - multiple interfaces", () => {
-        let input = `
+	test("generate classes - multiple interfaces", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : string;
             propTwo? : string;
@@ -21,10 +21,10 @@ suite("Interface conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let expected = `
+		let expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -47,18 +47,18 @@ suite("Interface conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate classes - prefix and suffix", () => {
-        let input = `
+	test("generate classes - prefix and suffix", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : string;
             propTwo? : string;
@@ -71,10 +71,10 @@ suite("Interface conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let expected = `
+		let expected = `
         public class PrefixBeansSuffix {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -97,18 +97,18 @@ suite("Interface conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input, false, "Prefix", "Suffix")
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input, false, "Prefix", "Suffix")
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate classes (exports only) - multiple interfaces", () => {
-        let input = `
+	test("generate classes (exports only) - multiple interfaces", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : string;
             propTwo? : string;
@@ -121,10 +121,10 @@ suite("Interface conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let expected = `
+		let expected = `
         public class SecondaryClass {
             [JsonProperty("propertyNumberOne")]
             public IEnumerable<int> PropertyNumberOne;
@@ -133,18 +133,18 @@ suite("Interface conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input, true)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input, true)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - primative types", () => {
-        let input = `
+	test("generate class - primative types", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne? : string;
             propTwo : string;
@@ -153,7 +153,7 @@ suite("Interface conversion tests", () => {
         }
         `.replace(/\s+/g, " ");
 
-        let expected = `
+		let expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -168,18 +168,18 @@ suite("Interface conversion tests", () => {
             public bool PropFour;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - primative lists", () => {
-        let input = `
+	test("generate class - primative lists", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : string[];
             propTwo : boolean[];
@@ -188,7 +188,7 @@ suite("Interface conversion tests", () => {
         }
         `.replace(/\s+/g, " ");
 
-        let expected = `
+		let expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public IEnumerable<string> PropOne;
@@ -203,127 +203,113 @@ suite("Interface conversion tests", () => {
             public IEnumerable<object> PropFour;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - custom object", () => {
-        let input = `
+	test("generate class - custom object", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : CustomClass;
         }
         `.replace(/\s+/g, " ");
 
-        let expected = `
+		let expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public CustomClass PropOne;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - custom object list", () => {
-        let input = `
+	test("generate class - custom object list", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propOne : CustomClass[];
         }
         `.replace(/\s+/g, " ");
 
-        let expected = `
+		let expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public IEnumerable<CustomClass> PropOne;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - empty interface", () => {
-        let input = `
+	test("generate class - empty interface", () => {
+		const input = /*typescript*/ `
         interface Beans {
         }
         `.replace(/\s+/g, " ");
 
-        let expected = `
+		let expected = `
         public class Beans {
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        let actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		let actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("extract name", () => {
-        let input = `
+	test("extract name", () => {
+		const input = /*typescript*/ `
         interface Beans {
         }
         `.replace(/\s+/g, " ");
 
-        let expected = "Beans";
+		let expected = "Beans";
 
-        let actual = extractInterfaceName(input);
+		let actual = extractInterfaceName(input);
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("extract property - primative", () => {
-        let input = `
+	test("extract property - primative", () => {
+		const input = /*typescript*/ `
         interface Beans {
             propertyOne : string;
         }
         `.replace(/\s+/g, " ");
 
-        let expected = [{ property: "propertyOne", type: "string" }];
+		let expected = [{ property: "propertyOne", type: "string" }];
 
-        let actual = extractProperties(input);
+		let actual = extractProperties(input);
 
-        assert.deepEqual(actual, expected);
-    });
-
-    test("extract property - list", () => {
-        let input = `
-        interface Beans {
-            propertyOne : string[];
-        }
-        `.replace(/\s+/g, " ");
-
-        let expected = [{ property: "propertyOne", type: "string[]" }];
-
-        let actual = extractProperties(input);
-
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 });
 
 suite("Class conversion tests", () => {
-    test("generate classes - multiple interfaces", () => {
-        const input = `
+	test("generate classes - multiple interfaces", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : string;
             propTwo? : string;
@@ -336,10 +322,10 @@ suite("Class conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const expected = `
+		const expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -362,18 +348,18 @@ suite("Class conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate classes - prefix and suffix", () => {
-        const input = `
+	test("generate classes - prefix and suffix", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : string;
             propTwo? : string;
@@ -386,10 +372,10 @@ suite("Class conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const expected = `
+		const expected = `
         public class PrefixBeansSuffix {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -412,23 +398,23 @@ suite("Class conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(
-            input,
-            false,
-            "Prefix",
-            "Suffix"
-        )
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(
+			input,
+			false,
+			"Prefix",
+			"Suffix"
+		)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate classes (exports only) - multiple interfaces", () => {
-        const input = `
+	test("generate classes (exports only) - multiple interfaces", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : string;
             propTwo? : string;
@@ -441,10 +427,10 @@ suite("Class conversion tests", () => {
             isProperty : boolean;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const expected = `
+		const expected = `
         public class SecondaryClass {
             [JsonProperty("propertyNumberOne")]
             public IEnumerable<int> PropertyNumberOne;
@@ -453,18 +439,18 @@ suite("Class conversion tests", () => {
             public bool IsProperty;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input, true)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input, true)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - primative types", () => {
-        const input = `
+	test("generate class - primative types", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne? : string;
             propTwo : string;
@@ -473,7 +459,7 @@ suite("Class conversion tests", () => {
         }
         `.replace(/\s+/g, " ");
 
-        const expected = `
+		const expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public string PropOne;
@@ -488,18 +474,18 @@ suite("Class conversion tests", () => {
             public bool PropFour;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - primative lists", () => {
-        const input = `
+	test("generate class - primative lists", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : string[];
             propTwo : boolean[];
@@ -508,7 +494,7 @@ suite("Class conversion tests", () => {
         }
         `.replace(/\s+/g, " ");
 
-        const expected = `
+		const expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public IEnumerable<string> PropOne;
@@ -523,120 +509,154 @@ suite("Class conversion tests", () => {
             public IEnumerable<object> PropFour;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - custom object", () => {
-        const input = `
+	test("generate class - custom object", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : CustomClass;
         }
         `.replace(/\s+/g, " ");
 
-        const expected = `
+		const expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public CustomClass PropOne;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - custom object list", () => {
-        const input = `
+	test("generate class - custom object list", () => {
+		const input = /*typescript*/ `
         class Beans {
             propOne : CustomClass[];
         }
         `.replace(/\s+/g, " ");
 
-        const expected = `
+		const expected = `
         public class Beans {
             [JsonProperty("propOne")]
             public IEnumerable<CustomClass> PropOne;
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("generate class - empty interface", () => {
-        const input = `
+	test("generate class - empty interface", () => {
+		const input = /*typescript*/ `
         class Beans {
         }
         `.replace(/\s+/g, " ");
 
-        const expected = `
+		const expected = `
         public class Beans {
         }
         `
-            .replace(/\s+/g, " ")
-            .trim();
+			.replace(/\s+/g, " ")
+			.trim();
 
-        const actual = convertInterfacesToCSharp(input)
-            .replace(/\s+/g, " ")
-            .trim();
+		const actual = convertInterfacesToCSharp(input)
+			.replace(/\s+/g, " ")
+			.trim();
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("extract name", () => {
-        const input = `
+	test("extract name", () => {
+		const input = /*typescript*/ `
         class Beans {
         }
         `.replace(/\s+/g, " ");
 
-        const expected = "Beans";
+		const expected = "Beans";
 
-        const actual = extractInterfaceName(input);
+		const actual = extractInterfaceName(input);
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("extract property - primative", () => {
-        const input = `
+	test("extract property - primative", () => {
+		const input = /*typescript*/ `
         class Beans {
             propertyOne : string;
         }
         `.replace(/\s+/g, " ");
 
-        const expected = [{ property: "propertyOne", type: "string" }];
+		const expected = [{ property: "propertyOne", type: "string" }];
 
-        const actual = extractProperties(input);
+		const actual = extractProperties(input);
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
 
-    test("extract property - list", () => {
-        const input = `
+	test("extract property - list", () => {
+		const input = /*typescript*/ `
         class Beans {
             propertyOne : string[];
         }
         `.replace(/\s+/g, " ");
 
-        const expected = [{ property: "propertyOne", type: "string[]" }];
+		const expected = [{ property: "propertyOne", type: "string[]" }];
 
-        const actual = extractProperties(input);
+		const actual = extractProperties(input);
 
-        assert.deepEqual(actual, expected);
-    });
+		assert.deepEqual(actual, expected);
+	});
+
+	test("extract property - list", () => {
+		const input = /*typescript*/ `
+        interface Beans {
+            propertyOne : string[];
+        }
+        `.replace(/\s+/g, " ");
+
+		let expected = [{ property: "propertyOne", type: "string[]" }];
+
+		let actual = extractProperties(input);
+
+		assert.deepEqual(actual, expected);
+	});
+
+	/** Covers bug #11 */
+	test("generate class - properties with numbers", () => {
+		const input = /*typescript*/ `
+export interface IAddress {
+    Id2132132213: number;
+    Name: string;
+    AddressLine1: string;
+    AddressLine2: string;
+    Number: string;
+}`;
+
+		const interfaceName = extractInterfaceName(input);
+		const properties = extractProperties(input);
+		const aaa = convertInterfacesToCSharp(input);
+
+		assert.notStrictEqual(aaa, "");
+		assert.strictEqual(interfaceName, "IAddress");
+		assert.strictEqual(properties.length, 19);
+	});
 });

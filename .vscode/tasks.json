@@ -6,7 +6,10 @@
         {
             "label": "build + test",
             "type": "shell",
-            "command": "npm run build; npm run test"
+            "command": "npm run build; npm run test",
+            "problemMatcher": [
+                "$tsc"
+            ]
         },
         {
             "label": "npm: publish",

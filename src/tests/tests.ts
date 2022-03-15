@@ -657,6 +657,36 @@ export interface IAddress {
 
 		assert.notStrictEqual(aaa, "");
 		assert.strictEqual(interfaceName, "IAddress");
-		assert.strictEqual(properties.length, 19);
+		assert.strictEqual(properties.length, 5);
+	});
+
+	/** Covers bug https://github.com/Box-Of-Hats/vscode-ts-to-cs/issues/13 */
+	test("generate class - properties with underscores", () => {
+		const input = /*typescript*/ `
+export interface IAddress {
+    id_123_one: number;
+    Name: string;
+    AddressLine1: string;
+    AddressLine2: string;
+    Number: string;
+}`;
+
+		const interfaceName = extractInterfaceName(input);
+		const properties = extractProperties(input);
+		const aaa = convertInterfacesToCSharp(input);
+
+		assert.notStrictEqual(aaa, "");
+		assert.strictEqual(interfaceName, "IAddress");
+		assert.strictEqual(properties.length, 5);
+		assert.strictEqual(properties[0].property, "id_123_one");
+		assert.strictEqual(properties[0].type, "number");
+		assert.strictEqual(properties[1].property, "Name");
+		assert.strictEqual(properties[1].type, "string");
+		assert.strictEqual(properties[2].property, "AddressLine1");
+		assert.strictEqual(properties[2].type, "string");
+		assert.strictEqual(properties[3].property, "AddressLine2");
+		assert.strictEqual(properties[3].type, "string");
+		assert.strictEqual(properties[4].property, "Number");
+		assert.strictEqual(properties[4].type, "string");
 	});
 });

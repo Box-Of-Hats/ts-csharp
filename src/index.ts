@@ -3,7 +3,7 @@ const interfaceBodyRegex =
 	/((interface|class) [a-zA-Z0-9_?]+\s*{[\sa-zA-Z0-9_:?;\[\]]+})/g;
 const interfaceBodyExportsOnlyRegex =
 	/(export (interface|class) [a-zA-Z0-9_?]+\s*{[\sa-zA-Z0-9_:?;\[\]]+})/g;
-const propertyRegex = /([a-zA-Z0-9_?]+\s*:\s*[a-zA-Z\[\]]+)/g;
+const propertyRegex = /([a-zA-Z0-9_?]+\s*:\s*[a-zA-Z_\[\]]+)/g;
 
 export interface TsProperty {
 	property: string;
